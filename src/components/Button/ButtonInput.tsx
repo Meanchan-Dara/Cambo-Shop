@@ -16,13 +16,13 @@ const ButtonInput: React.FC<ButtonInputProps> = ({
   ...props 
 }) => {
   return (
-    <div className="space-y-3">
-      <label className="text-[17px] font-bold text-[#000000]">{label}</label>
+    <div className="space-y-2">
+      <label className="text-[14px] font-bold text-[#000000]">{label}</label>
       <div className="relative">
         <input
           {...props}
           type={showPasswordToggle ? (showPassword ? "text" : "password") : props.type}
-          className={`w-full bg-[#f3f4f6] border-none rounded-[14px] py-[18px] px-6 text-[16px] text-gray-800 placeholder:text-gray-400 focus:ring-2 focus:ring-black outline-none transition-all shadow-sm ${showPasswordToggle ? 'pr-14' : ''} ${props.className || ''}`}
+          className={`w-full bg-[#f3f4f6] border-none rounded-[8px] py-[12px] px-6 text-[12px] text-gray-800 placeholder:text-gray-400 focus:ring-2 focus:ring-black outline-none transition-all shadow-sm ${showPasswordToggle ? 'pr-14' : ''} ${props.className || ''}`}
         />
         {showPasswordToggle && (
           <button

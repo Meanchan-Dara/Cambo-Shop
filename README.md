@@ -47,7 +47,8 @@ npm run dev
 - TypeScript
 - TypeScript React
 - React
-- React DOM
+- React Icons
+- React Router DOM
 - React Hook 
 - React Component
 - React Hot Toast

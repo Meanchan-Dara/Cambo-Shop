@@ -8,7 +8,7 @@ const ButtonSubmit: React.FC<ButtonSubmitProps> = ({ children, className, ...pro
   return (
     <button
       {...props}
-      className={`w-full bg-[#000000] text-white font-bold py-[18px] rounded-[14px] hover:bg-gray-800 active:scale-[0.98] transition-all mt-4 text-[18px] shadow-lg shadow-black/10 ${className || ''}`}
+      className={`w-full bg-[#000000] text-white font-bold py-[14px] rounded-[14px] hover:bg-gray-800 active:scale-[0.98] transition-all mt-4 text-[14px] shadow-lg shadow-black/10 ${className || ''}`}
     >
       {children}
     </button>
