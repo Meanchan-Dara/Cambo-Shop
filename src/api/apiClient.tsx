@@ -28,12 +28,23 @@ async function apiClient<T>(endpoint: string, options: RequestOptions = {}): Pro
 
   const res = await fetch(url, init);
 
-  if (!res.ok) {
-    const err = await res.json().catch(() => null);
-    throw { status: res.status, message: err?.detail || res.statusText };
+  const contentType = res.headers.get("content-type");
+  let data: any = null;
+  
+  if (contentType && contentType.includes("application/json")) {
+    data = await res.json().catch(() => null);
+  } else {
+    data = await res.text().catch(() => null);
   }
 
-  return res.json();
+  if (!res.ok) {
+    const errorMessage = (typeof data === 'object' && data !== null) 
+      ? (data.error || data.message || data.detail || res.statusText) 
+      : (data || res.statusText);
+    throw { status: res.status, message: errorMessage };
+  }
+
+  return data;
 }
 
 export const api = {
@@ -46,3 +57,5 @@ export const api = {
 
 // Endpoints
 export const CATEGORY_ENDPOINT = '/api/category';
+export const LOGIN_ENDPOINT = '/api/auth/login';
+export const REGISTER_ENDPOINT = '/api/auth/register';

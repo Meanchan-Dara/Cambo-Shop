@@ -2,15 +2,46 @@ import React, { useState } from 'react';
 import ButtonInput from '../../components/Button/ButtonInput';
 import ButtonSubmit from '../../components/Button/ButtonSubmit';
 import Button from '../../components/Button/Button';
-import {
-  LuChevronLeft,
-} from "react-icons/lu";
+import { LuChevronLeft } from "react-icons/lu";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import AppLayout from '../../components/Layout/AppLayout';
+import { useNavigate } from 'react-router-dom';
+import { api, REGISTER_ENDPOINT } from '@/api/apiClient';
+import toast from 'react-hot-toast';
 
 const SingUp: React.FC = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!fullName || !email || !password) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const response = await api.post<{ message: string }>(REGISTER_ENDPOINT, {
+        username: fullName,
+        email,
+        password
+      });
+
+      toast.success(response.message || "Registration successful! Please login.");
+      setTimeout(() => navigate('/login'), 1500);
+    } catch (error: any) {
+      toast.error(error.message || "Registration failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <AppLayout>
@@ -19,13 +50,15 @@ const SingUp: React.FC = () => {
         <div className="max-w-[1600px] mx-auto ml-16">
           {/* Back Button Row */}
           <div className="flex items-center justify-between mb-2 ml-34">
-            <button className="flex items-center gap-2 font-bold text-base group transition-all">
+            <button 
+              onClick={() => window.history.back()}
+              className="flex items-center gap-2 font-bold text-base group transition-all"
+            >
               <div className="border border-gray-200 rounded-full p-2 group-hover:bg-gray-50 transition-colors shadow-sm">
                 <LuChevronLeft className="text-lg" />
               </div>
               Back
             </button>
-           
           </div>
 
           <div className="grid lg:grid-cols-2  items-start">
@@ -51,23 +84,29 @@ const SingUp: React.FC = () => {
               </div>
 
               <div className=" text-center text-base text-[#8e8e8e] font-medium">
-                Already a member? <a href="/login" className="text-black font-bold underline underline-offset-4 hover:text-blue-600 transition-colors">Log In</a>
+                Already a member? <button onClick={() => navigate('/login')} className="text-black font-bold underline underline-offset-4 hover:text-blue-600 transition-colors">Log In</button>
               </div>
             </div>
 
             {/* Right Side: Form */}
             <div className="max-w-md mx-auto lg:mx-0 w-full pt-4">
-              <form className="space-y-2" onSubmit={(e) => e.preventDefault()}>
+              <form className="space-y-2" onSubmit={handleRegister}>
                 <ButtonInput
                   label="Full name"
                   type="text"
                   placeholder="Enter your full name"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required
                 />
 
                 <ButtonInput
                   label="Email"
                   type="email"
                   placeholder="Enter your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
 
                 <ButtonInput
@@ -76,10 +115,13 @@ const SingUp: React.FC = () => {
                   showPassword={showPassword}
                   onTogglePassword={() => setShowPassword(!showPassword)}
                   placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
 
-                <ButtonSubmit>
-                  Sign Up
+                <ButtonSubmit disabled={isLoading}>
+                  {isLoading ? "Creating Account..." : "Sign Up"}
                 </ButtonSubmit>
 
                 <div className="relative py-2 flex items-center justify-center">
@@ -88,11 +130,11 @@ const SingUp: React.FC = () => {
                 </div>
 
                 <div className="space-y-3">
-                  <Button >
+                  <Button type="button">
                     <FcGoogle className="text-xl" />
                     Sign Up with Google
                   </Button>
-                  <Button>
+                  <Button type="button">
                     <FaFacebook className="text-xl" />
                     Sign Up with Facebook
                   </Button>

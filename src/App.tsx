@@ -1,9 +1,14 @@
-import SingUp from './pages/SingUp/SingUp'
+import AppRouter from '@/routers/AppRouter';
+
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
-    <SingUp />
-  )
+    <>
+      <Toaster position="top-right" />
+      <AppRouter />
+    </>
+  );
 }
 
-export default App
+export default App;
