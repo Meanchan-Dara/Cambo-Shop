@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand Section */}
           <div className="space-y-6">
-            <h2 className="text-2xl font-black tracking-tighter italic">UNITED DEALS</h2>
+            <h2 className="text-2xl font-black tracking-tighter italic">CAMBO SHOP</h2>
             <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
               Your one-stop destination for worldwide Megamart essentials. We bring premium quality products right to your doorstep.
             </p>

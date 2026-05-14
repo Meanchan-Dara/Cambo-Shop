@@ -6,6 +6,7 @@ import {
   LuShoppingCart, 
   LuMenu
 } from "react-icons/lu";
+import { Link } from 'react-router-dom';
 import { CATEGORY_ENDPOINT, api } from '../../api/apiClient';
 import type { Category, CategoryResponse } from '../../types/Category';
 
@@ -17,6 +18,7 @@ const Header: React.FC = () => {
     const fetchCategories = async () => {
       try {
         const data = await api.get<CategoryResponse>(CATEGORY_ENDPOINT);
+        console.log("Fetched categories data:", data);
         if (Array.isArray(data)) {
           setCategories(data);
         } else if (data && typeof data === 'object') {
@@ -29,6 +31,7 @@ const Header: React.FC = () => {
       } catch (error) {
         console.error("Failed to fetch categories:", error);
       } finally {
+
         setIsLoading(false);
       }
     };
@@ -45,10 +48,10 @@ const Header: React.FC = () => {
             <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
                <LuMenu className="text-2xl" />
             </button>
-            <div className="flex items-center gap-2">
-               <h1 className="text-2xl font-black tracking-tighter text-[#000000]">UNITED DEALS</h1>
+            <Link to="/" className="flex items-center gap-2">
+               <h1 className="text-2xl font-black tracking-tighter text-[#000000]">CAMBO SHOP</h1>
                <img src="/Fash-Sale.png" alt="Flash Sale" className="h-10 object-contain" />
-            </div>
+            </Link>
           </div>
 
           {/* Search Bar */}
@@ -65,18 +68,18 @@ const Header: React.FC = () => {
 
           {/* Actions */}
           <div className="flex items-center gap-6 text-[13px] font-semibold">
-            <div className="flex items-center gap-2 text-[#ff8a00] cursor-pointer">
+            <Link to="/deals" className="flex items-center gap-2 text-[#ff8a00] cursor-pointer">
               <LuHeart className="text-xl" />
               <span>My Deals</span>
-            </div>
-            <div className="flex items-center gap-2 cursor-pointer text-[#000000]">
+            </Link>
+            <Link to="/login" className="flex items-center gap-2 cursor-pointer text-[#000000]">
               <LuUser className="text-xl" />
               <span>Sign Up/Sign In</span>
-            </div>
-            <div className="flex items-center gap-2 cursor-pointer text-[#000000]">
+            </Link>
+            <Link to="/cart" className="flex items-center gap-2 cursor-pointer text-[#000000]">
               <LuShoppingCart className="text-xl" />
               <span>Cart</span>
-            </div>
+            </Link>
           </div>
         </div>
         
@@ -100,14 +103,14 @@ const Header: React.FC = () => {
               </button>
               
               {categories.map((category) => (
-                <a 
+                <Link 
                   key={category.id} 
-                  href={`/category/${category.id}`}
+                  to={`/category/${category.id}`}
                   className="relative text-[13.5px] font-bold text-gray-500 hover:text-black transition-colors whitespace-nowrap group"
                 >
                   {category.name}
                   <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
-                </a>
+                </Link>
               ))}
             </>
           )}
@@ -118,3 +121,4 @@ const Header: React.FC = () => {
 };
 
 export default Header;
+

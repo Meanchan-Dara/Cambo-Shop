@@ -17,14 +17,17 @@ async function apiClient<T>(endpoint: string, options: RequestOptions = {}): Pro
     url += `?${searchParams.toString()}`;
   }
 
+  const token = localStorage.getItem('token');
   const init: RequestInit = {
     method,
     headers: { 
       "Content-Type": "application/json", 
+      ...(token ? { "Authorization": `Bearer ${token}` } : {}),
       ...headers 
     },
     body: body ? JSON.stringify(body) : undefined,
   };
+
 
   const res = await fetch(url, init);
 

@@ -45,7 +45,7 @@ const Login: React.FC = () => {
     };
 
     return (
-        <AppLayout>
+        <AppLayout showHeader={false} showFooter={false}>
             {/* Main Content Area */}
             <div className="px-20 py-4 mb-12">
                 <div className="max-w-[1600px] mx-auto ml-16">
