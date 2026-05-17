@@ -38,6 +38,46 @@ const Header: React.FC = () => {
     fetchCategories();
   }, []);
 
+  const getCategoryDetails = (name: string) => {
+    const n = name.toLowerCase();
+    if (n.includes('skincare') || n.includes('cosmetic') || n.includes('beauty')) {
+      return {
+        path: '/skincare',
+        label: `🌸 ${name}`,
+        className: 'text-[#B76E79] hover:text-[#A05C66] font-extrabold',
+        underlineColor: 'bg-[#B76E79]'
+      };
+    }
+    if (n.includes('electron') || n.includes('mobile') || n.includes('phone') || n.includes('gadget')) {
+      return {
+        path: '/electronics',
+        label: `⚡ ${name}`,
+        className: 'text-[#0284C7] hover:text-[#0369A1] font-extrabold',
+        underlineColor: 'bg-[#0284C7]'
+      };
+    }
+    if (n.includes('fashion') || n.includes('cloth') || n.includes('shoe') || n.includes('wear')) {
+      return {
+        path: '/fashion',
+        label: `🧥 ${name}`,
+        className: 'text-[#8C6D58] hover:text-[#735643] font-extrabold',
+        underlineColor: 'bg-[#8C6D58]'
+      };
+    }
+    return {
+      path: `/category/${name.toLowerCase()}`,
+      label: name,
+      className: 'text-gray-500 hover:text-black font-bold',
+      underlineColor: 'bg-blue-600'
+    };
+  };
+
+  const displayedCategories = categories.length > 0 ? categories : [
+    { id: 1, name: 'Skincare' },
+    { id: 2, name: 'Electronics' },
+    { id: 3, name: 'Fashion' }
+  ];
+
   return (
     <div className="sticky top-0 z-[100] w-full shadow-sm">
       {/* Main Header */}
@@ -101,17 +141,28 @@ const Header: React.FC = () => {
                 <LuMenu className="text-lg" />
                 All Categories
               </button>
+
+              <Link 
+                to="/home"
+                className="relative text-[13.5px] font-extrabold text-gray-800 hover:text-black transition-colors whitespace-nowrap group"
+              >
+                🏠 Home
+                <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
+              </Link>
               
-              {categories.map((category) => (
-                <Link 
-                  key={category.id} 
-                  to={`/category/${category.id}`}
-                  className="relative text-[13.5px] font-bold text-gray-500 hover:text-black transition-colors whitespace-nowrap group"
-                >
-                  {category.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              ))}
+              {displayedCategories.map((category) => {
+                const details = getCategoryDetails(category.name);
+                return (
+                  <Link 
+                    key={category.id} 
+                    to={details.path}
+                    className={`relative text-[13.5px] transition-colors whitespace-nowrap group ${details.className}`}
+                  >
+                    {details.label}
+                    <span className={`absolute -bottom-1 left-0 w-0 h-[2px] transition-all duration-300 group-hover:w-full ${details.underlineColor}`}></span>
+                  </Link>
+                );
+              })}
             </>
           )}
         </div>
