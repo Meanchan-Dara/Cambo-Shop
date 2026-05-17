@@ -35,7 +35,7 @@ const Login: React.FC = () => {
             toast.success("Login successful!");
             localStorage.setItem('token', response.token);
             
-            setTimeout(() => navigate('/'), 1000);
+            setTimeout(() => navigate('/home'), 1000);
         } catch (error: any) {
             console.error("Login error:", error);
             toast.error(error.message || "Login failed. Please check your credentials.");

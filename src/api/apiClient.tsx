@@ -18,11 +18,13 @@ async function apiClient<T>(endpoint: string, options: RequestOptions = {}): Pro
   }
 
   const token = localStorage.getItem('token');
+  const isAuthEndpoint = endpoint.includes('/api/auth/');
+
   const init: RequestInit = {
     method,
     headers: { 
       "Content-Type": "application/json", 
-      ...(token ? { "Authorization": `Bearer ${token}` } : {}),
+      ...(!isAuthEndpoint && token ? { "Authorization": `Bearer ${token}` } : {}),
       ...headers 
     },
     body: body ? JSON.stringify(body) : undefined,
@@ -41,6 +43,9 @@ async function apiClient<T>(endpoint: string, options: RequestOptions = {}): Pro
   }
 
   if (!res.ok) {
+    if (res.status === 401) {
+      localStorage.removeItem('token');
+    }
     const errorMessage = (typeof data === 'object' && data !== null) 
       ? (data.error || data.message || data.detail || res.statusText) 
       : (data || res.statusText);

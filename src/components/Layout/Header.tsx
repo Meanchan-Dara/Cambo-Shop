@@ -48,7 +48,7 @@ const Header: React.FC = () => {
             <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
                <LuMenu className="text-2xl" />
             </button>
-            <Link to="/" className="flex items-center gap-2">
+            <Link to="/home" className="flex items-center gap-2">
                <h1 className="text-2xl font-black tracking-tighter text-[#000000]">CAMBO SHOP</h1>
                <img src="/Fash-Sale.png" alt="Flash Sale" className="h-10 object-contain" />
             </Link>
